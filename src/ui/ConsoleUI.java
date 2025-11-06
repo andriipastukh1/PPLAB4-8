@@ -24,6 +24,8 @@ public class ConsoleUI {
                     running = false;
                 }
                 default -> System.out.println("Error :) Invalid option!");
+
+
             }
         }
     }

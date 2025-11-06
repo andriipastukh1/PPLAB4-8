@@ -17,6 +17,13 @@ public class Menu {
         commands.put(2, new CalculateTaxesCommand());
         commands.put(3, new ShowReportCommand());
 
+        commands.put(4, new ShowMainMenuCommand());
+        commands.put(5, new CalculateTaxesCommand());
+        commands.put(6, new ShowReportCommand());
+
+        commands.put(7, new ExitCommand());
+
+
         commands.put(0, new ExitCommand());
 
 
@@ -24,14 +31,23 @@ public class Menu {
     }
 
     public void showMainMenu() {
+
+
+
         System.out.println("=== Main Menu ===");
         System.out.println("1. Show menu");
 
+
         System.out.println("2. Calculate taxes");
-
-
         System.out.println("3. Generate report");
+
+        System.out.println("5. Import Income from file");
+        System.out.println("6. Calculate taxes");
+
+        System.out.println("7. Generate report");
+
         System.out.println("0. Exit");
+
     }
 
     public void handleUserChoice(int choice) {
@@ -39,4 +55,8 @@ public class Menu {
         if (cmd != null) cmd.execute();
         else System.out.println("Error wrong chiose!");
     }
+
+
+
+
 }
