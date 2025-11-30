@@ -1,28 +1,31 @@
 package model;
 
 public enum TaxCategory {
-    //перевірити чи податки правьні і змінити
-
-
-    MILITARY_TAX("Military Tax", 0.015),
-    INCOME_TAX("Income Tax", 0.18),
-    PROPERTY_TAX("Property Tax", 0.05),
-    GIFT_TAX("Gift Tax", 0.10),
-    FOREIGN_INCOME_TAX("Foreign Income Tax", 0.20);
+    MILITARY_TAX("Military tax", 0.015),
+    INCOME_TAX("Income tax (PIT)", 0.18),
+    PROPERTY_TAX("Property tax", 0.05),
+    GIFT_TAX("Gift tax", 0.10),
+    FOREIGN_INCOME_TAX("Foreign income tax", 0.20),
+    CAPITAL_GAINS("Capital gains tax", 0.10);
 
     private final String description;
-    private final double rate;
 
-    TaxCategory(String description, double rate) {
+
+    private final double defaultRate;
+
+    TaxCategory(String description, double defaultRate) {
+
+
         this.description = description;
-        this.rate = rate;
+
+
+        this.defaultRate = defaultRate;
+
+
+
+
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public double getRate() {
-        return rate;
-    }
+    public String getDescription() { return description; }
+    public double getDefaultRate() { return defaultRate; }
 }

@@ -1,8 +1,7 @@
 package ui.commands;
 
+
 public class ShowIncomeFromFile implements Command {
-    public void execute() {
-
-
-    }
+    @Override
+    public void execute() { System.out.println("incone"); }
 }

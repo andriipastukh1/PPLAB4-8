@@ -1,25 +1,32 @@
 package model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+public class Expense implements Serializable {
 
 
-public class Expense {
-    private String id;
+
+    private String id = java.util.UUID.randomUUID().toString();
+
+
     private String description;
-
-
     private BigDecimal amount;
+
 
     private LocalDate date;
 
 
 
-    public boolean isDeductibleByRule(TaxRule rule) {
-        /* заглушка */
+    public Expense() {}
+    public Expense(String desc, BigDecimal amount, LocalDate date) {
 
 
-        return false;
+        this.description = desc; this.amount = amount; this.date = date;
     }
+    public BigDecimal getAmount() { return amount; }
+
+
+    public String getDescription() { return description; }
 }

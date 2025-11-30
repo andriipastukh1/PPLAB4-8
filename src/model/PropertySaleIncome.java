@@ -1,22 +1,48 @@
 package model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class PropertySaleIncome extends Income {
     private Property propertySold;
 
-    public Property getPropertySold() { return propertySold; }
 
-    public BigDecimal calculateCapitalGain(BigDecimal purchasePrice, BigDecimal salePrice) {
-        /* заглушка */
+    private BigDecimal salePrice;
 
-        return BigDecimal.ZERO;
+
+
+    public PropertySaleIncome() { super(); }
+
+    public PropertySaleIncome(Property prop, BigDecimal salePrice, LocalDate date, String note) {
+        super(salePrice, date, note);
+
+
+        this.propertySold = prop;
+
+
+        this.salePrice = salePrice;
+    }
+
+    public Property getPropertySold() {
+
+    return propertySold;
+
+    }
+    public BigDecimal getSalePrice() {
+
+    return salePrice;
+
+    }
+
+
+
+    public BigDecimal calculateCapitalGain() {
+        if (propertySold == null || salePrice == null) return BigDecimal.ZERO;
+        return propertySold.getCapitalGain(salePrice);
     }
 
     @Override
     public TaxCategory getTaxCategory() {
-        /* заглушка */
-
-        return null;
+        return TaxCategory.CAPITAL_GAINS;
     }
 }

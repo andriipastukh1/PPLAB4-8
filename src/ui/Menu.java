@@ -1,62 +1,78 @@
 package ui;
 
-import java.util.*;
 import ui.commands.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
+public class Menu implements ui.commands.Command {
+    private Map<Integer, ui.commands.Command> commands = new HashMap<>();
 
+    public Menu() { init(); }
 
+    protected void init() {
 
-
-
-public class Menu {
-    private Map<Integer, Command> commands = new HashMap<>();
-
-    public Menu() {
-        commands.put(1, new ShowMainMenuCommand());
-
-        commands.put(2, new CalculateTaxesCommand());
-        commands.put(3, new ShowReportCommand());
-
-        commands.put(4, new ShowMainMenuCommand());
-        commands.put(5, new CalculateTaxesCommand());
-        commands.put(6, new ShowReportCommand());
-
-        commands.put(7, new ExitCommand());
-
-
+        commands.put(1, new IncomeMenuCommand());
+        commands.put(2, new BenefitsMenuCommand());
+        commands.put(3, new ImportDataCommand());
+        commands.put(4, new TaxesMenuCommand());
+        commands.put(7, new RegisterPaymentCommand());
+        commands.put(8, new SetAutoSaveCommand());
+        commands.put(9, new ImportBatchCommand());
+        commands.put(10, new ShowAllDataCommand());
+        commands.put(11, new SaveCommand());
         commands.put(0, new ExitCommand());
-
-
-
     }
 
     public void showMainMenu() {
+        System.out.println("\n==========================================");
+        System.out.println("          TAX SYSTEM MAIN MENU            ");
+        System.out.println("==========================================");
+
+        System.out.println("--- Categories ---");
+        System.out.println("1. Income (manage incomes)");
+        System.out.println("2. Benefits (manage benefits)");
+        System.out.println("3. Import Data from File (.ser)");
+
+        System.out.println("\n--- Calculations & Rates ---");
+        System.out.println("4. Calculate Tax Payments");
 
 
+        System.out.println("\n--- Payments ---");
+        System.out.println("7. Register Payment");
 
-        System.out.println("=== Main Menu ===");
-        System.out.println("1. Show menu");
+        System.out.println("\n--- Utilities ---");
+        System.out.println("8. Configure Auto-save & Batch Logging");
+//        System.out.println("9. Import Batch Script (.bat)");
+        System.out.println("10. Show All Data");
+        System.out.println("11. Save to file");
 
-
-        System.out.println("2. Calculate taxes");
-        System.out.println("3. Generate report");
-
-        System.out.println("5. Import Income from file");
-        System.out.println("6. Calculate taxes");
-
-        System.out.println("7. Generate report");
-
-        System.out.println("0. Exit");
-
+        System.out.println("\n0. Exit");
+        System.out.print("------------------------------------------\n");
     }
 
     public void handleUserChoice(int choice) {
-        Command cmd = commands.get(choice);
+        ui.commands.Command cmd = commands.get(choice);
         if (cmd != null) cmd.execute();
-        else System.out.println("Error wrong chiose!");
+        else System.out.println("Error: Invalid choice! Please try again.");
     }
 
-
-
-
+    @Override
+    public void execute() {
+        Scanner sc = new Scanner(System.in);
+        int choice = -1;
+        do {
+            showMainMenu();
+            System.out.print("Your Choice: ");
+            if (sc.hasNextInt()) {
+                choice = sc.nextInt();
+                sc.nextLine();
+                handleUserChoice(choice);
+            } else {
+                System.out.println("Error: Please enter a number.");
+                sc.nextLine();
+            }
+        } while (choice != 0);
+        System.out.println("Exiting system. Goodbye!");
+    }
 }

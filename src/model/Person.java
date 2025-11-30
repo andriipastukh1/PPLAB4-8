@@ -1,114 +1,145 @@
 package model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import service.TaxCalculator;
-
-public class Person {
-    private String id;
+public class Person implements Serializable {
+    private String id = java.util.UUID.randomUUID().toString();
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private List<Income> incomes = new ArrayList<>();
-    private List<Dependent> dependents = new ArrayList<>();
-    private List<Property> properties = new ArrayList<>();
-    private List<TaxBenefit> benefits = new ArrayList<>();
-    private List<Document> documents = new ArrayList<>();
-    private List<TaxPayment> taxPayments = new ArrayList<>();
 
-    public void addIncome(Income income) {
-        /* заглушка */
+    // collections
+    public List<Income> incomes = new ArrayList<>();
+    public List<Dependent> dependents = new ArrayList<>();
+
+
+    public List<Property> properties = new ArrayList<>();
+
+
+    public List<TaxBenefit> benefits = new ArrayList<>();
+    public List<Document> documents = new ArrayList<>();
+    public List<TaxPayment> taxPayments = new ArrayList<>();
+
+    public Person() {}
+    public Person(String firstName, String lastName) { this.firstName = firstName; this.lastName = lastName; }
+
+    public String getId() { return id; }
+
+
+    public String getFirstName() { return firstName; }
+
+
+    public String getLastName() { return lastName;
+
     }
 
-    public boolean removeIncome(String incomeId) {
-        /* заглушка */
-        return false;
+
+    public String getFullName() { return (firstName + " " + (lastName==null?"":lastName)).trim();
+
     }
 
-    public List<Income> getIncomes() {
-        return incomes;
-    }
+    public void addIncome(Income income) { if (income != null) incomes.add(income); }
+    public boolean removeIncome(String incomeId) { return incomes.removeIf(i -> i.getId().equals(incomeId)); }
 
     public void addDependent(Dependent d) {
-        /* заглушка */
+
+    if (d != null) dependents.add(d);
 
     }
+    public boolean removeDependent(String name) {
 
-    public boolean removeDependent(String dependentId) {
-        /* заглушка */
+     return dependents.removeIf(d -> d.getName().equalsIgnoreCase(name));
 
-        return false;
-    }
-
-    public List<Dependent> getDependents() {
-        return dependents;
-    }
+     }
 
     public void addProperty(Property p) {
-        /* заглушка */
+
+     if (p != null) properties.add(p);
+
+     }
+
+
+    public boolean removeProperty(String propertyId) { return properties.removeIf(p -> p.getId().equals(propertyId)); }
+
+    public void addBenefit(TaxBenefit b) { if (b != null)
+
+     benefits.add(b);
+
+    }
+    public void removeBenefit(String benefitName) {
+
+    benefits.removeIf(b -> b.getDescription().equalsIgnoreCase(benefitName));
+
+     }
+
+
+
+    public void addTaxPayment(TaxPayment payment) {
+        if (payment != null) {
+            this.taxPayments.add(payment);
+        }
+    }
+
+    public List<TaxPayment> getTaxPaymentsForYear(int year) {
+        return taxPayments.stream()
+
+
+                .filter(t -> t.getTaxYear() == year)
+
+
+                .collect(Collectors.toList());
+    }
+
+    public List<TaxPayment> getTaxPaymentsInRange(BigDecimal min, BigDecimal max) {
+        return taxPayments.stream()
+                .filter(t -> {
+
+
+                    BigDecimal amt = t.getAmount();
+
+
+                    return amt != null && amt.compareTo(min) >= 0 && amt.compareTo(max) <= 0;
+                })
+                .collect(Collectors.toList());
+
 
     }
 
-    public boolean removeProperty(String propertyId) {
-        /* заглушка */
 
-        return false;
-    }
-
-    public void addBenefit(TaxBenefit benefit) {
-        /* заглушка */
-
-    }
-
-    public void removeBenefit(String benefitId) {
-        /* заглушка */
-
-    }
 
     public BigDecimal getTotalAnnualIncome(int year) {
-        /* заглушка */
+        BigDecimal sum = BigDecimal.ZERO;
 
-        return BigDecimal.ZERO;
+
+        for (Income inc : incomes) if (inc != null && inc.isAnnual(year) && inc.getAmount()!=null) sum = sum.add(inc.getAmount());
+        return sum;
     }
 
     public BigDecimal getTaxableIncome(int year) {
-        /* заглушка */
+        BigDecimal base = getTotalAnnualIncome(year);
 
-        return BigDecimal.ZERO;
-    }
 
-    public List<TaxPayment> calculateTaxes(int year, TaxCalculator calculator) {
-        /* заглушка */
 
-        return new ArrayList<>();
-    }
+        for (TaxBenefit b : benefits) if (b != null && b.isApplicable(year)) base = base.subtract(b.applyBenefit(base));
+        if (base.compareTo(BigDecimal.ZERO) < 0) base = BigDecimal.ZERO;
 
-    public void addDocument(Document doc) {
-        /* заглушка */
 
-    }
+        return base;
 
-    public List<Document> getDocuments() {
-        /* заглушка */
 
-        return documents;
     }
 
     @Override
+
+
     public String toString() {
-        /* заглушка */
-
-
 
 
         return String.format("Person[id=%s, name=%s %s]", id, firstName, lastName);
     }
-
-
-
-
-
-
 }

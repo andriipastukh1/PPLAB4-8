@@ -1,29 +1,64 @@
 package model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-import model.interfaces.IncomeSource;
+public class TaxRule implements Serializable {
+    private String id = java.util.UUID.randomUUID().toString();
 
-public class TaxRule {
-    private String id;
+
+
+
     private String name;
+
+
+
+
     private BigDecimal rate;
+
+
+
+
     private BigDecimal threshold;
-    private TaxCategory tax_cat;
+    private TaxCategory taxCategory;
+
+    public TaxRule() {}
+    public TaxRule(String name, BigDecimal rate, BigDecimal threshold, TaxCategory cat) {
 
 
+
+
+     this.name = name; this.rate = rate; this.threshold = threshold; this.taxCategory = cat;
+
+
+    }
 
     public BigDecimal applyRule(BigDecimal taxableAmount) {
-        /* заглушка */
 
-        return BigDecimal.ZERO;
+
+        if (taxableAmount == null || rate == null) return BigDecimal.ZERO;
+
+
+
+
+        return taxableAmount.multiply(rate);
     }
 
-    public boolean appliesTo(IncomeSource source) {
-        /* заглушка */
+    public boolean appliesTo(BigDecimal taxable) {
 
-        return false;
+
+        if (threshold == null) return true;
+
+
+
+
+        return taxable.compareTo(threshold) > 0;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+
+
+
+    return name; }
+    public TaxCategory getTaxCategory() { return taxCategory; }
 }
