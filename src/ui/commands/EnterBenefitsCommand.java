@@ -16,82 +16,52 @@ public class EnterBenefitsCommand implements Command {
     @Override
     public void execute() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter person full name: ");
-        String full = sc.nextLine().trim();
 
-
-
+        String full = ui.InputUtils.readString(sc, "Enter person full name: ");
         Person p = svc.findPersonByFullName(full);
-
-
         if (p == null) { System.out.println("Person not found."); return; }
 
         System.out.println("Benefit categories:");
 
 
         List<String> subs = catSvc.getSubcategories("BENEFIT");
+
+
+
         for (int i = 0; i < subs.size(); i++) System.out.println((i+1) + ". " + subs.get(i));
+
         System.out.println("a. Add new benefit subcategory");
 
-
-        System.out.print("Choose number or 'a': ");
-
-
-        String ch = sc.nextLine().trim();
-
+        String ch = ui.InputUtils.readString(sc, "Choose number or 'a': ");
 
         if (ch.equalsIgnoreCase("a")) {
 
 
-            System.out.print("New subcategory name: ");
-
-
-            String name = sc.nextLine().trim();
+            String name = ui.InputUtils.readString(sc, "New subcategory name: ");
             if (catSvc.addSubcategory("BENEFIT", name)) System.out.println("Added.");
             else System.out.println("Not added (exists).");
 
 
-            subs = catSvc.getSubcategories("BENEFIT");
-
-
         }
 
+
+
+
+
         try {
-            System.out.print("Benefit name (or choose subcategory): ");
+            String bname = ui.InputUtils.readString(sc, "Benefit name (or choose subcategory): ");
+
+            BigDecimal amount = ui.InputUtils.readMoney(sc, "Amount (if percent, enter percent number): ");
+
+            boolean isPercent = ui.InputUtils.confirm(sc, "Is percent?");
 
 
-            String bname = sc.nextLine().trim();
 
-            if (bname.isEmpty()) {
-
-
-                System.out.println("No benefit name, abort.");
-                return;
-            }
-
-
-            System.out.print("Amount (if percent, enter percent number): ");
-
-
-            BigDecimal amount = new BigDecimal(sc.nextLine().trim());
-            System.out.print("Is percent? true/false: ");
-
-
-            boolean isPercent = Boolean.parseBoolean(sc.nextLine().trim());
-            System.out.print("Valid from year: ");
-
-
-            int f = Integer.parseInt(sc.nextLine().trim());
-            System.out.print("Valid to year: ");
-
-
-            int t = Integer.parseInt(sc.nextLine().trim());
-
-
+            int f = ui.InputUtils.readInt(sc, "Valid from year: ");
+            int t = ui.InputUtils.readInt(sc, "Valid to year: ");
 
             TaxBenefit b = new TaxBenefit(bname, amount, isPercent, f, t);
             svc.addBenefitToPerson(p, b);
-
             System.out.println("Benefit added.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
