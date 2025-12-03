@@ -85,6 +85,14 @@ public class Person implements Serializable {
         }
     }
 
+    public boolean removeTaxPayment(TaxPayment payment) {
+        return taxPayments.remove(payment);
+    }
+
+
+
+
+
     public List<TaxPayment> getTaxPaymentsForYear(int year) {
         return taxPayments.stream()
 

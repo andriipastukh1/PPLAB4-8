@@ -32,6 +32,9 @@ public class TaxesMenuCommand implements Command {
             System.out.println("1. Calculate taxes for person");
             System.out.println("2. Show tax report for year");
             System.out.println("3. Search taxes by amount range");
+            System.out.println("4. Manage Tax Rates");
+            System.out.println("5. Delete Tax Payment");
+
             System.out.println("0. Back to main menu");
             System.out.print("Choice: ");
             choice = sc.nextLine().trim();
@@ -42,8 +45,12 @@ public class TaxesMenuCommand implements Command {
                 case "1" -> calculateTaxes(sc);
                 case "2" -> showTaxReport(sc);
 
-
                 case "3" -> searchTaxesByRange(sc);
+                case "4" -> new ManageRatesCommand().execute();
+
+                case "5" -> deleteTaxPayment(sc);
+
+
                 case "0" -> System.out.println("Returning to main menu...");
 
 
@@ -51,6 +58,62 @@ public class TaxesMenuCommand implements Command {
             }
         } while (!choice.equals("0"));
     }
+
+
+
+
+
+
+    private void deleteTaxPayment(Scanner sc) {
+        System.out.print("Enter person full name: ");
+        String fullname = sc.nextLine().trim();
+
+
+        Person p = svc.findPersonByFullName(fullname);
+
+        if (p == null) {
+            System.out.println("Person not found.");
+            return;
+        }
+
+        System.out.print("Enter year: ");
+        try {
+            int year = Integer.parseInt(sc.nextLine().trim());
+
+            List<TaxPayment> taxes = p.getTaxPaymentsForYear(year);
+
+            if (taxes.isEmpty()) {
+                System.out.println("No taxes found for " + year);
+                return;
+            }
+
+            System.out.println("--- Taxes for deletion ---");
+            for (int i = 0; i < taxes.size(); i++) {
+                TaxPayment t = taxes.get(i);
+                System.out.println(i + ". " + t.getTaxCategory() + ": " + t.getAmount() + " (" + t.getReason() + ")");
+            }
+
+            System.out.print("Enter number to delete: ");
+            int index = Integer.parseInt(sc.nextLine().trim());
+
+            if (index >= 0 && index < taxes.size()) {
+                TaxPayment toDelete = taxes.get(index);
+
+                if (p.removeTaxPayment(toDelete)) {
+                    System.out.println("Tax deleted successfully.");
+                    svc.saveDefault();
+                } else {
+                    System.out.println("Error deleting tax.");
+                }
+            } else {
+                System.out.println("Invalid number.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.");
+        }
+    }
+
 
     private void calculateTaxes(Scanner sc) {
         System.out.print("Enter person full name: ");
