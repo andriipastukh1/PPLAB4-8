@@ -17,8 +17,8 @@ public class Menu implements ui.commands.Command {
         commands.put(3, new ImportDataCommand());
         commands.put(4, new TaxesMenuCommand());
         commands.put(7, new RegisterPaymentCommand());
-        commands.put(8, new SetAutoSaveCommand());
-        commands.put(9, new ImportBatchCommand());
+//        commands.put(8, new SetAutoSaveCommand());
+//        commands.put(9, new ImportBatchCommand());
         commands.put(10, new ShowAllDataCommand());
         commands.put(11, new SaveCommand());
         commands.put(0, new ExitCommand());
@@ -42,7 +42,7 @@ public class Menu implements ui.commands.Command {
         System.out.println("7. Register Payment");
 
         System.out.println("\n--- Utilities ---");
-        System.out.println("8. Configure Auto-save & Batch Logging");
+//        System.out.println("8. Autosave");
 //        System.out.println("9. Import Batch Script (.bat)");
         System.out.println("10. Show All Data");
         System.out.println("11. Save to file");

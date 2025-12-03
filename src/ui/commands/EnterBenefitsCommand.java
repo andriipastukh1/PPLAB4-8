@@ -17,47 +17,66 @@ public class EnterBenefitsCommand implements Command {
     public void execute() {
         Scanner sc = new Scanner(System.in);
 
+
+
         String full = ui.InputUtils.readString(sc, "Enter person full name: ");
+
+
         Person p = svc.findPersonByFullName(full);
+
+
         if (p == null) { System.out.println("Person not found."); return; }
 
+
+
+
         System.out.println("Benefit categories:");
-
-
         List<String> subs = catSvc.getSubcategories("BENEFIT");
-
 
 
         for (int i = 0; i < subs.size(); i++) System.out.println((i+1) + ". " + subs.get(i));
 
+
         System.out.println("a. Add new benefit subcategory");
 
+
+
         String ch = ui.InputUtils.readString(sc, "Choose number or 'a': ");
+
+
 
         if (ch.equalsIgnoreCase("a")) {
 
 
+
             String name = ui.InputUtils.readString(sc, "New subcategory name: ");
+
+
             if (catSvc.addSubcategory("BENEFIT", name)) System.out.println("Added.");
+
+
             else System.out.println("Not added (exists).");
-
-
         }
-
-
-
-
 
         try {
             String bname = ui.InputUtils.readString(sc, "Benefit name (or choose subcategory): ");
 
-            BigDecimal amount = ui.InputUtils.readMoney(sc, "Amount (if percent, enter percent number): ");
 
-            boolean isPercent = ui.InputUtils.confirm(sc, "Is percent?");
+
+
+
+            BigDecimal amount = ui.InputUtils.readMoney(sc, "Amount");
+
+            boolean isPercent = ui.InputUtils.confirm(sc, "Is this a percent?");
 
 
 
             int f = ui.InputUtils.readInt(sc, "Valid from year: ");
+
+
+
+
+
             int t = ui.InputUtils.readInt(sc, "Valid to year: ");
 
             TaxBenefit b = new TaxBenefit(bname, amount, isPercent, f, t);
