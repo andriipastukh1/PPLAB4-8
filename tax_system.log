@@ -1,0 +1,6 @@
+[2025-12-10 21:39:32] [INFO] >>> APPLICATION STARTED <<< 
+[2025-12-10 21:39:32] [INFO] TaxCalculator: Default tax rates 
+[2025-12-10 21:39:32] [WARNING] TaxCalculator: 'tax_rates.properties' not found or unreadable. Using default rates. 
+[2025-12-10 21:39:32] [INFO] CategoryService initialized with default categories. 
+[2025-12-10 21:39:32] [INFO] >>> MENU OPENED <<< 
+[2025-12-10 21:39:45] [INFO] >>> APPLICATION STOPPED (User Exit) <<< 
