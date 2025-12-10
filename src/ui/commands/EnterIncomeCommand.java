@@ -164,6 +164,11 @@ public class EnterIncomeCommand implements Command {
 
                     break;
 
+                case 5:
+                    String ip = ui.InputUtils.readString(sc, "Intellectual Property (Book/Patent): ");
+                    income = new RoyaltyIncome(amt, date, ip, "royalty");
+                    break;
+
                 default:
 
 
