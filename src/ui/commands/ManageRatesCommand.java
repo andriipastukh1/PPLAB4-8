@@ -70,4 +70,9 @@ public class ManageRatesCommand implements Command {
             System.out.println("Error: " + ex.getMessage());
         }
     }
+
+    @Override
+    public String getDesc() {
+        return "Manage Tax Rates";
+    }
 }

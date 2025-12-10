@@ -21,15 +21,7 @@ public class GiftIncome extends Income {
 
     public GiftIncome(BigDecimal amount, LocalDate date, String giver, boolean monetary, String note) {
         super(amount, date, note);
-
-
-
-
-
-
         this.giver = giver;
-
-
 
         this.monetary = monetary;
     }

@@ -102,4 +102,10 @@ public class ShowAllDataCommand implements Command {
         }
         System.out.println("--------------------------------------------------");
     }
+
+    @Override
+    public String getDesc() {
+        return "Show All Info";
+    }
+
 }

@@ -55,7 +55,11 @@ public class TaxCalculator {
 
         for (Income inc : person.incomes) {
             if (!inc.isAnnual(year)) continue;
+
+
             BigDecimal tax = calculateTaxForIncome(inc, person, year);
+
+
             if (tax.compareTo(BigDecimal.ZERO) > 0) {
                 TaxPayment t = new TaxPayment(tax, year, inc.getClass().getSimpleName() + " (" + inc.getNote() + ")", inc.getTaxCategory());
                 payments.add(t);

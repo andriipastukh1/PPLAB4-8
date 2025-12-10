@@ -47,4 +47,10 @@ public class ShowReportCommand implements Command {
             }
         }
     }
+    @Override
+    public String getDesc() {
+        return "Show Report";
+    }
+
+
 }

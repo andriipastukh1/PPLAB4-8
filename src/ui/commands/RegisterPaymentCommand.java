@@ -91,4 +91,10 @@ public class RegisterPaymentCommand implements Command {
             }
         }
     }
+
+
+    @Override
+    public String getDesc() {
+        return "Register Payment";
+    }
 }

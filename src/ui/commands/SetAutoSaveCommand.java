@@ -9,7 +9,7 @@ public class SetAutoSaveCommand implements Command {
     @Override
     public void execute() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enable auto-save & batch logging? y/n: ");
+        System.out.print("Enable auto save y/n: ");
 
 
 
@@ -33,4 +33,10 @@ public class SetAutoSaveCommand implements Command {
         svc.setAutoSaveBatch(path, true);
         System.out.println("Auto-save enabled; " + path);
     }
+    @Override
+    public String getDesc() {
+        return "Auto save Menegement";
+    }
+
+
 }

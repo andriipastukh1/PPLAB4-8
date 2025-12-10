@@ -19,4 +19,10 @@ public class ImportDataCommand implements Command {
         svc.load(path);
         System.out.println("Loaded persons: " + svc.getAllPersons().size());
     }
+
+
+    @Override
+    public String getDesc() {
+        return "Import Data";
+    }
 }

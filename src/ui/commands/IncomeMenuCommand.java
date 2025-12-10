@@ -43,8 +43,6 @@ public class IncomeMenuCommand implements Command {
                     new EnterIncomeCommand().execute();
                     break;
                 case "2":
-
-
                     listIncomes(sc);
                     break;
                 case "3":
@@ -123,7 +121,7 @@ public class IncomeMenuCommand implements Command {
             int idx = Integer.parseInt(sidx);
             if (idx < 0 || idx >= p.incomes.size()) { System.out.println("Index out of range."); return; }
             String incId = p.incomes.get(idx).getId();
-            boolean removed = p.removeIncome(incId); // Person.removeIncome should remove by id
+            boolean removed = p.removeIncome(incId);
             if (removed) {
 
 
@@ -136,4 +134,12 @@ public class IncomeMenuCommand implements Command {
             System.out.println("Invalid number.");
         }
     }
+
+    @Override
+    public String getDesc() {
+        return "Income Management (Add, List, Delete)";
+    }
+
+
+
 }

@@ -86,4 +86,9 @@ public class EnterBenefitsCommand implements Command {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDesc() {
+        return "Enter Benefit";
+    }
 }

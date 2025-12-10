@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class InputUtils {
 
+
     public static int readInt(Scanner sc, String prompt) {
         while (true) {
 

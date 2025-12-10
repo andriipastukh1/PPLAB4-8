@@ -21,6 +21,8 @@ public class TaxesMenuCommand implements Command {
     public TaxesMenuCommand() {
     }
 
+
+
     @Override
     public void execute() {
         Scanner sc = new Scanner(System.in);
@@ -229,4 +231,12 @@ public class TaxesMenuCommand implements Command {
             else taxes.forEach(t -> System.out.println("  - " + t.getTaxCategory() + ": " + t.getAmount()));
         }
     }
+
+    @Override
+    public String getDesc() {
+        return "Tax Management (Add, Pay, Delete)";
+    }
+
+
+
 }

@@ -69,4 +69,10 @@ public class ShowAnalyticsCommand implements Command {
         if (val == null) return "0.00";
         return String.format("%.2f", val);
     }
+
+
+    @Override
+    public String getDesc() {
+        return "Show Analytics";
+    }
 }

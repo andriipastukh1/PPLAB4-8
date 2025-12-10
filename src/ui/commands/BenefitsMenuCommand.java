@@ -26,7 +26,7 @@ public class BenefitsMenuCommand implements Command {
 
 
             System.out.println("3. Delete benefit (by index)");
-            System.out.println("4. Back to main menu");
+            System.out.println("0. Back to main menu");
             System.out.print("Choice: ");
 
 
@@ -49,7 +49,7 @@ public class BenefitsMenuCommand implements Command {
                 case "3":
                     deleteBenefit(sc);
                     break;
-                case "4":
+                case "0":
 
 
                     System.out.println("Returning to main menu...");
@@ -122,5 +122,11 @@ public class BenefitsMenuCommand implements Command {
         } catch (NumberFormatException ex) {
             System.out.println("Invalid number.");
         }
+    }
+
+
+    @Override
+    public String getDesc() {
+        return "Benefits";
     }
 }

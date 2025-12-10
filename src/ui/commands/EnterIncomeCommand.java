@@ -192,4 +192,9 @@ public class EnterIncomeCommand implements Command {
 
         }
     }
+    @Override
+    public String getDesc() {
+        return "Enter Income";
+    }
+
 }
