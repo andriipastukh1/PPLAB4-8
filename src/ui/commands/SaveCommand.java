@@ -23,4 +23,9 @@ public class SaveCommand implements Command {
         else svc.save(path);
         System.out.println("Saved.");
     }
+
+    @Override
+    public String getDesc() {
+        return "Save Command";
+    }
 }

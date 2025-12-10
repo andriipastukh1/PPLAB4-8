@@ -6,7 +6,9 @@ public enum TaxCategory {
     PROPERTY_TAX("Property tax", 0.05),
     GIFT_TAX("Gift tax", 0.10),
     FOREIGN_INCOME_TAX("Foreign income tax", 0.20),
-    CAPITAL_GAINS("Capital gains tax", 0.10);
+    CAPITAL_GAINS("Capital gains tax", 0.10),
+    ROYALTY_TAX("Capital gains tax", 0.10);
+
 
     private final String description;
 
