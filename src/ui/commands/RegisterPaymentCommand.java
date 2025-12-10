@@ -17,12 +17,16 @@ public class RegisterPaymentCommand implements Command {
         Scanner sc = new Scanner(System.in);
 
         String full = ui.InputUtils.readString(sc, "Enter person full name: ");
+        util.AppLogger.LOGGER.info( "Enter person full name: ");
+
         Person p = svc.findPersonByFullName(full);
         if (p == null) { System.out.println("Person not found."); return; }
+        util.AppLogger.LOGGER.info( "Person not found. ");
 
 
 
         int year = ui.InputUtils.readInt(sc, "Enter year: ");
+        util.AppLogger.LOGGER.info( "Enter year: ");
 
 
 
@@ -30,6 +34,7 @@ public class RegisterPaymentCommand implements Command {
 
 
         if (taxes.isEmpty()) { System.out.println("No taxes found."); return; }
+        util.AppLogger.LOGGER.info( "Enter person full name: ");
 
         System.out.println("Taxes:");
 
@@ -43,6 +48,7 @@ public class RegisterPaymentCommand implements Command {
 
 
         String s = ui.InputUtils.readString(sc, "Enter index to mark as paid (or type 'all'): ");
+        util.AppLogger.LOGGER.info( "\"Enter index to mark as paid (or type 'all'):  ");
 
         if (s.equalsIgnoreCase("all")) {
 
@@ -79,6 +85,7 @@ public class RegisterPaymentCommand implements Command {
 
 
                     System.out.println("Index out of range.");
+                    util.AppLogger.LOGGER.info( "\"Index out of range  ");
 
 
                 }
@@ -86,6 +93,7 @@ public class RegisterPaymentCommand implements Command {
 
 
                 System.out.println("Invalid input.");
+                util.AppLogger.LOGGER.info( "\"Invalid input.  ");
 
 
             }

@@ -43,7 +43,7 @@ public class ManageRatesCommand implements Command {
 
 
         String catName = ui.InputUtils.readString(sc, "Enter category name (e.g. INCOME_TAX): ");
-
+        util.AppLogger.LOGGER.info( "Enter category name (e.g. INCOME_TAX):");
 
 
         try {
@@ -51,7 +51,7 @@ public class ManageRatesCommand implements Command {
 
 
             BigDecimal newRate = ui.InputUtils.readMoney(sc, "Enter new rate as decimal (e.g. 0.18): ");
-
+            util.AppLogger.LOGGER.info( "Enter new rate as decimal (e.g. 0.18):");
             calc.updateRate(tcat, newRate);
 
 
@@ -62,17 +62,19 @@ public class ManageRatesCommand implements Command {
 
 
             System.out.println("Error: Invalid category name.");
-
+            util.AppLogger.LOGGER.info( "Error: Invalid category name.");
 
         } catch (Exception ex) {
 
 
             System.out.println("Error: " + ex.getMessage());
+            util.AppLogger.LOGGER.info( "Error: " + ex.getMessage());
         }
     }
 
     @Override
     public String getDesc() {
         return "Manage Tax Rates";
+
     }
 }

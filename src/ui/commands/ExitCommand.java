@@ -5,5 +5,8 @@ public class ExitCommand implements Command {
     public void execute() {
         System.out.println("Exit. Goodbye.");
         System.exit(0);
+
+        util.AppLogger.LOGGER.info("Exit. Goodbye.");
+
     }
 }

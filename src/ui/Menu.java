@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Scanner;
 
+import java.util.logging.Level;
+import util.AppLogger;
+import java.util.logging.Level;
+
+
 public class Menu implements Command {
     private Map<Integer, Command> commands = new TreeMap<>();
 
@@ -45,8 +50,9 @@ public class Menu implements Command {
     public void execute() {
         Scanner sc = new Scanner(System.in);
         boolean isRunning = true;
-
+        AppLogger.LOGGER.info(">>> MENU OPENED <<<");
         while (isRunning) {
+            try {
             showMainMenu();
             System.out.print("Your Choice: ");
 
@@ -55,19 +61,27 @@ public class Menu implements Command {
                 sc.nextLine();
 
                 if (choice == 0) {
-
+                    util.AppLogger.LOGGER.info(">>> APPLICATION STOPPED (User Exit) <<<");
                     System.out.println("Exiting system. Goodbye!");
                     isRunning = false;
                 } else {
                     Command cmd = commands.get(choice);
                     if (cmd != null) {
+                        AppLogger.LOGGER.info("User selected menu option: " + choice + " (" + cmd.getDesc() + ")");
                         cmd.execute();
                     } else {
+                        AppLogger.LOGGER.warning("Invalid input format (not a number): ");
                         System.out.println("Error: Invalid choice! Please try again.");
                     }
                 }
             } else {
                 System.out.println("Error: Please enter a number.");
+                AppLogger.LOGGER.info("Error: Please enter a number.");
+                sc.nextLine();
+            }
+            } catch (Exception e) {
+                AppLogger.LOGGER.log(Level.SEVERE, "CRITICAL ERROR in Main Menu Loop", e);
+                System.out.println("A critical error occurred. Please check logs.");
                 sc.nextLine();
             }
         }

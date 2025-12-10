@@ -27,6 +27,7 @@ public class IncomeMenuCommand implements Command {
 
             @Override
             public String getDesc() {
+                util.AppLogger.LOGGER.info( "List incomes for person");
                 return "List incomes for person";
             }
         });

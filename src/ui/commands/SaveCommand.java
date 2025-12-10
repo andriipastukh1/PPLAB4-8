@@ -22,6 +22,8 @@ public class SaveCommand implements Command {
         if (path.isEmpty()) svc.saveDefault();
         else svc.save(path);
         System.out.println("Saved.");
+        util.AppLogger.LOGGER.info( "\"Saved.");
+
     }
 
     @Override

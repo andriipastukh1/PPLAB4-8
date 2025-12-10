@@ -11,12 +11,15 @@ public class TaxSearchService {
     public List<TaxPayment> findTaxesByRange(List<TaxPayment> taxes, BigDecimal min, BigDecimal max) {
         List<TaxPayment> res = new ArrayList<>();
 
+        util.AppLogger.LOGGER.info("Seraching for taxes");
 
         for (TaxPayment t : taxes) {
 
 
             if ((min == null || t.getAmount().compareTo(min) >= 0) && (max == null || t.getAmount().compareTo(max) <= 0))
                 res.add(t);
+            util.AppLogger.LOGGER.info("Seraching for taxes" + t);
+
         }
 
 

@@ -21,6 +21,8 @@ public class ShowReportCommand implements Command {
         int year = ui.InputUtils.readInt(sc, "Enter year for report: ");
 
         String reportText = gen.generateReport(svc.getAllPersons(), calc, year);
+        util.AppLogger.LOGGER.info( reportText);
+
 
         System.out.println(reportText);
 
@@ -29,6 +31,7 @@ public class ShowReportCommand implements Command {
 
             String fileName = ui.InputUtils.readString(sc, "Enter file name (for exep - report_2025.txt): ");
 
+            util.AppLogger.LOGGER.info( fileName);
 
 
             try (FileWriter writer = new FileWriter(fileName)) {
@@ -38,12 +41,14 @@ public class ShowReportCommand implements Command {
 
 
                 System.out.println("Report successfully saved to " + fileName);
+                util.AppLogger.LOGGER.info( "Report successfully saved to " + fileName);
 
 
             } catch (IOException e) {
 
 
                 System.out.println("Error saving file: " + e.getMessage());
+                util.AppLogger.LOGGER.info( "Error saving file: " + e.getMessage());
             }
         }
     }

@@ -13,11 +13,20 @@ public class ImportDataCommand implements Command {
 
 
         System.out.print("Enter file path to load data (.ser): ");
+        util.AppLogger.LOGGER.info("Enter file path to load data (.ser):");
+
+        util.AppLogger.LOGGER.info(" ");
+
         String path = sc.nextLine().trim();
+        util.AppLogger.LOGGER.info("User requested data import from: " + path);
+        util.AppLogger.LOGGER.info(" User requested data import from: ");
+
 
 
         svc.load(path);
         System.out.println("Loaded persons: " + svc.getAllPersons().size());
+        util.AppLogger.LOGGER.info("Loaded persons: ");
+
     }
 
 

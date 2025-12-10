@@ -1,5 +1,7 @@
 package ui.commands;
 
+import util.AppLogger;
+import java.util.logging.Level;
 import model.TaxBenefit;
 import model.Person;
 import service.CategoryService;
@@ -15,8 +17,9 @@ public class EnterBenefitsCommand implements Command {
 
     @Override
     public void execute() {
-        Scanner sc = new Scanner(System.in);
+        AppLogger.LOGGER.info("User executing Enter Benefit command.");
 
+        Scanner sc = new Scanner(System.in);
 
 
         String full = ui.InputUtils.readString(sc, "Enter person full name: ");
@@ -25,12 +28,22 @@ public class EnterBenefitsCommand implements Command {
         Person p = svc.findPersonByFullName(full);
 
 
-        if (p == null) { System.out.println("Person not found."); return; }
 
 
 
+        if (p == null) {
+            AppLogger.LOGGER.warning("Enter Benefit: Person not found '" + full + "'");
+
+
+            System.out.println("Person not found.");
+
+
+            return;
+
+        }
 
         System.out.println("Benefit categories:");
+
         List<String> subs = catSvc.getSubcategories("BENEFIT");
 
 
@@ -48,24 +61,35 @@ public class EnterBenefitsCommand implements Command {
         if (ch.equalsIgnoreCase("a")) {
 
 
-
             String name = ui.InputUtils.readString(sc, "New subcategory name: ");
 
 
-            if (catSvc.addSubcategory("BENEFIT", name)) System.out.println("Added.");
+            if (catSvc.addSubcategory("BENEFIT", name)) {
 
 
-            else System.out.println("Not added (exists).");
+                System.out.println("Added.");
+
+
+            } else {
+
+
+                AppLogger.LOGGER.warning("Enter Benefit: Failed to add subcategory (duplicate) '" + name + "'");
+
+
+                System.out.println("Not added (exists).");
+
+
+            }
         }
+
 
         try {
             String bname = ui.InputUtils.readString(sc, "Benefit name (or choose subcategory): ");
 
 
-
-
-
             BigDecimal amount = ui.InputUtils.readMoney(sc, "Amount");
+
+
 
             boolean isPercent = ui.InputUtils.confirm(sc, "Is this a percent?");
 
@@ -74,16 +98,32 @@ public class EnterBenefitsCommand implements Command {
             int f = ui.InputUtils.readInt(sc, "Valid from year: ");
 
 
-
-
-
             int t = ui.InputUtils.readInt(sc, "Valid to year: ");
 
+
+
             TaxBenefit b = new TaxBenefit(bname, amount, isPercent, f, t);
+
+
             svc.addBenefitToPerson(p, b);
+
+
+
+            AppLogger.LOGGER.info("Benefit '" + bname + "' added to person " + p.getFullName());
+
+
             System.out.println("Benefit added.");
+
+
         } catch (Exception e) {
+
+
+            AppLogger.LOGGER.log(Level.SEVERE, "Error adding benefit", e);
+
+
             System.out.println("Error: " + e.getMessage());
+
+
         }
     }
 

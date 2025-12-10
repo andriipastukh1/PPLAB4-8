@@ -1,11 +1,17 @@
 package service;
 
+
+import util.AppLogger;
+import java.util.logging.Level;
+
+
 import model.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+
 
 
 public class TaxService {
@@ -26,6 +32,7 @@ public class TaxService {
     public Person createPerson(String firstName, String lastName){
         Person p = new Person(firstName, lastName);
         persons.add(p);
+        AppLogger.LOGGER.info("Created person: " + p.getFullName());
         if (autoSaveEnabled) {
             saveDefault();
             appendToBatch(String.format("ADD_PERSON|%s|%s", safe(firstName), safe(lastName)));
@@ -34,30 +41,26 @@ public class TaxService {
     }
 
     public void addPerson(Person p){
-        if (p == null) return;
+        if (p == null) {
+            AppLogger.LOGGER.warning("Attempted to add null person");
+            return;
+        }
         persons.add(p);
+        AppLogger.LOGGER.info("Added person: " + p.getFullName());
         if (autoSaveEnabled) {
-
-
             saveDefault();
-
-
             appendToBatch(String.format("ADD_PERSON|%s|%s", safe(p.getFirstName()), safe(p.getLastName())));
         }
     }
 
     public void addIncomeToPerson(Person person, Income income){
-
-
-
         if (person == null || income == null) return;
-
-
         person.addIncome(income);
-
-
+        AppLogger.LOGGER.info("Added income to " + person.getFullName() + ": " + income.getAmount());
         saveAndLogIncome(person, income);
     }
+
+
 
     private void saveAndLogIncome(Person person, Income income) {
         if (autoSaveEnabled) {
@@ -143,11 +146,22 @@ public class TaxService {
     }
 
 
+
+
     public void save(String filePath){
-        storage.saveToFile(persons, filePath);
+        try {
+            storage.saveToFile(persons, filePath);
+            if (autoSaveBatchPath != null) appendToBatch("SAVE|" + safe(filePath));
 
 
-        if (autoSaveBatchPath != null) appendToBatch("SAVE|" + safe(filePath));
+            AppLogger.LOGGER.info("Data saved to: " + filePath);
+
+
+        } catch (Exception e) {
+
+
+            AppLogger.LOGGER.log(java.util.logging.Level.SEVERE, "Failed to save data to " + filePath, e);
+        }
     }
 
     public void saveDefault(){
@@ -155,19 +169,30 @@ public class TaxService {
     }
 
     public void load(String filePath){
-        List<Person> loaded = storage.loadFromFile(filePath);
 
 
-        if (loaded != null) {
+        try {
+            List<Person> loaded = storage.loadFromFile(filePath);
 
 
-            persons.clear();
-            persons.addAll(loaded);
+            if (loaded != null) {
 
 
+                persons.clear();
+
+
+                persons.addAll(loaded);
+
+
+                AppLogger.LOGGER.info("Data loaded from: " + filePath);
+            }
+        } catch (Exception e) {
+
+
+
+            AppLogger.LOGGER.log(java.util.logging.Level.SEVERE, "Failed to load data from " + filePath, e);
         }
     }
-
     public Person findPersonByFullName(String fullname){
         if (fullname == null) return null;
 
@@ -233,4 +258,12 @@ public class TaxService {
     }
 
     private static String safe(String s) { return s == null ? "" : s.replace("|", "/"); }
+
+    public boolean isAutoSaveEnabled() {
+        return autoSaveEnabled;
+    }
+
+    public String getBatchLogPath() {
+        return autoSaveBatchPath == null ? null : autoSaveBatchPath.toString();
+    }
 }

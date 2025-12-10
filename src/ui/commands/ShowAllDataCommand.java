@@ -16,6 +16,7 @@ public class ShowAllDataCommand implements Command {
 
             System.out.println("--------------------------------------------------");
             System.out.println("Person: " + p.getFullName() + " (id=" + p.getId() + ")");
+            util.AppLogger.LOGGER.info( "Person: " + p.getFullName() + " (id=" + p.getId() + ")");
 
 
 

@@ -11,12 +11,12 @@ public class ImportBatchCommand implements Command {
 
 
         System.out.print("Enter batch file path (.bat or .txt): ");
-
+        util.AppLogger.LOGGER.info("Enter batch file path (.bat or .txt):.");
 
 
 
         String path = sc.nextLine().trim();
-        if (path.isEmpty()) { System.out.println("No path entered."); return; }
+        if (path.isEmpty()) { System.out.println("No path entered.");System.out.print("No path entered. "); return; }
         svc.processBatchFile(path);
     }
 }
